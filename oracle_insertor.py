@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-import cx_Oracle
+import oracledb
 import glob
 import os
 
@@ -11,9 +11,9 @@ db_hostname = os.getenv('DB_HOSTNAME')
 db_port = os.getenv('DB_PORT')
 db_service_name = os.getenv('DB_SERVICE_NAME')
 
-dsn = cx_Oracle.makedsn(db_hostname, db_port, service_name=db_service_name)
+dsn = oracledb.makedsn(db_hostname, db_port, service_name=db_service_name)
 
-connection = cx_Oracle.connect(
+connection = oracledb.connect(
     user=db_user,
     password=db_password,
     dsn=dsn
@@ -37,7 +37,7 @@ for view_file in view_files:
                 print(row)
             
             print(f"Successfully executed query from {view_file}")
-        except cx_Oracle.DatabaseError as e:
+        except oracledb.DatabaseError as e:
             error, = e.args
             print(f"Error executing query from {view_file}: {error.message}")
 
